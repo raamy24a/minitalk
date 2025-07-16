@@ -6,13 +6,12 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 14:44:40 by radib             #+#    #+#             */
-/*   Updated: 2025/07/15 16:19:54 by radib            ###   ########.fr       */
+/*   Updated: 2025/07/16 08:14:04 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdio.h>
 #include "../minitalk.h"
+#include "../libft/libft.h"
 
 void	sendbyte(int pid, int character)
 {
@@ -31,12 +30,13 @@ void	sendbyte(int pid, int character)
 	else
 		bits[i] = '1';
 	bits[8] = '\0';
-	while (bits[i])
+	while (i >= 0)
 	{
 		if (bits[i] == '1')
 			kill(pid, SIGUSR2);
 		else if (bits[i] == '0')
 			kill(pid, SIGUSR1);
+		usleep(100);
 		i--;
 	}
 }
@@ -46,9 +46,7 @@ int	main(int argc, char *argv[])
 	int		pid;
 
 	i = 0;
-	if (argc != 2)
-		return (0);
-	pid = argv[1];
+	pid = ft_atoi(argv[1]);
 	while (argv[2][i])
 	{
 		sendbyte(pid, 29);
