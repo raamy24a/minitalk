@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 14:44:40 by radib             #+#    #+#             */
-/*   Updated: 2025/07/16 08:14:04 by radib            ###   ########.fr       */
+/*   Updated: 2025/07/16 13:28:28 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	sendbyte(int pid, int character)
 		i--;
 	}
 }
+
 int	main(int argc, char *argv[])
 {
 	int		i;
@@ -49,7 +50,7 @@ int	main(int argc, char *argv[])
 	pid = ft_atoi(argv[1]);
 	while (argv[2][i])
 	{
-		sendbyte(pid, 29);
+		sendbyte(pid, (int)argv[2][i]);
 		i++;
 	}
 }
