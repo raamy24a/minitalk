@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:20:31 by radib             #+#    #+#             */
-/*   Updated: 2025/07/29 13:50:43 by radib            ###   ########.fr       */
+/*   Updated: 2025/07/31 15:26:35 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,11 @@
 # include <unistd.h>
 # include <signal.h>
 
-typedef struct t_bit
+typedef struct pid_and_count
 {
-	int	bit;
-	int	i;
-}	t_bit;
+	int		pid;
+	int		i;
+	char	*string;
+}	t_pid_and_count;
 
 #endif
