@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 14:44:40 by radib             #+#    #+#             */
-/*   Updated: 2025/07/16 13:28:28 by radib            ###   ########.fr       */
+/*   Updated: 2025/07/29 14:56:24 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,29 +15,17 @@
 
 void	sendbyte(int pid, int character)
 {
-	char	bits[9];
-	int		i;
+	int	i;
 
 	i = 0;
 	while (i != 8)
 	{
-		bits[i] = character % 2 + '0';
-		i++;
-		character /= 2;
-	}
-	if (character == 0)
-		bits[i] = '0';
-	else
-		bits[i] = '1';
-	bits[8] = '\0';
-	while (i >= 0)
-	{
-		if (bits[i] == '1')
+		if ((character >> i) & 1)
 			kill(pid, SIGUSR2);
-		else if (bits[i] == '0')
+		else
 			kill(pid, SIGUSR1);
 		usleep(100);
-		i--;
+		i++;
 	}
 }
 
@@ -47,6 +35,8 @@ int	main(int argc, char *argv[])
 	int		pid;
 
 	i = 0;
+	if (argc != 3)
+		return (0);
 	pid = ft_atoi(argv[1]);
 	while (argv[2][i])
 	{
