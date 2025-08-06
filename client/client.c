@@ -6,75 +6,41 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 14:44:40 by radib             #+#    #+#             */
-/*   Updated: 2025/07/31 15:51:33 by radib            ###   ########.fr       */
+/*   Updated: 2025/08/06 15:55:54 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minitalk.h"
 #include "../libft/libft.h"
-#include <unistd.h>
-#include <signal.h>
 
-t_pid_and_count	g_pid_and_count;
-
-void	sendpid(int pid)
+void	sendbyte(int pid, int character)
 {
 	int	i;
 
 	i = 0;
-	while (i < 32)
+	while (i != 8)
 	{
-		if ((pid >> i) & 1)
-			kill(g_pid_and_count.pid, SIGUSR2);
+		if ((character >> i) & 1)
+			kill(pid, SIGUSR2);
 		else
-			kill(g_pid_and_count.pid, SIGUSR1);
-		usleep(1000);
+			kill(pid, SIGUSR1);
+		usleep(100);
 		i++;
-	}
-}
-
-void	sendbyte(int sig)
-{
-	int	i;
-
-	i = 0;
-	if (sig == SIGUSR1)
-	{
-		while (i < 8)
-		{
-			if ((g_pid_and_count.string[g_pid_and_count.i] >> i) & 1)
-				kill(g_pid_and_count.pid, SIGUSR2);
-			else
-				kill(g_pid_and_count.pid, SIGUSR1);
-			i++;
-			usleep(1000);
-		}
-		g_pid_and_count.i++;
 	}
 }
 
 int	main(int argc, char *argv[])
 {
-	struct sigaction	sa;
-	int					x;
+	int		i;
+	int		pid;
 
-	g_pid_and_count.i = 0;
-	g_pid_and_count.string = argv[2];
-	x = getpid();
-	sa.sa_handler = sendbyte;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
-	sigaction(SIGUSR1, &sa, NULL);
+	i = 0;
 	if (argc != 3)
 		return (0);
-	g_pid_and_count.pid = ft_atoi(argv[1]);
-	sendpid(x);
-	while (1)
+	pid = ft_atoi(argv[1]);
+	while (argv[2][i])
 	{
-		if (g_pid_and_count.string[g_pid_and_count.i] == 0)
-		{
-			sendbyte(SIGUSR1);
-			return (0);
-		}
+		sendbyte(pid, (int)argv[2][i]);
+		i++;
 	}
 }
