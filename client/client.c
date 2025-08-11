@@ -6,14 +6,14 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 14:44:40 by radib             #+#    #+#             */
-/*   Updated: 2025/08/11 04:05:48 by radib            ###   ########.fr       */
+/*   Updated: 2025/08/11 15:26:46 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minitalk.h"
 #include "../libft/libft.h"
 
-int	g_pid;
+int	g_handshake;
 
 void	sendbyte(int pid, int character)
 {
@@ -22,31 +22,48 @@ void	sendbyte(int pid, int character)
 	i = 0;
 	while (i != 8)
 	{
-		if ((character >> i) & 1)
-			kill(pid, SIGUSR2);
+		g_handshake = 0;
+		if (((character >> i) & 1) == 1)
+		{
+			if (kill(pid, SIGUSR2))
+			{
+				write(2, "wrong pid\n", 10);
+				exit (0);
+			}
+		}
 		else
 			kill(pid, SIGUSR1);
-		usleep(100);
+		while (g_handshake == 0)
+			usleep(1);
 		i++;
 	}
 }
 
-void	handle_signal(int sig)
+void	handler(int sig)
 {
-	sendbyte(g_)
+	if (sig == SIGUSR1)
+		ft_printf("%s", "bit_received \n");
+	g_handshake = 1;
 }
 
 int	main(int argc, char *argv[])
 {
-	int		i;
+	int					i;
+	struct sigaction	sa;
+	int					pid;
 
-	sa.sa_handler = handle_signal;
+	sa.sa_handler = handler;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
 	sigaction(SIGUSR1, &sa, NULL);
 	i = 0;
 	if (argc != 3)
 		return (0);
-	g_pid = ft_atoi(argv[1]);
-	sendbyte(g_pid, (int)argv[2][i]);
+	pid = ft_atoi(argv[1]);
+	while (argv[2][i])
+	{
+		sendbyte(pid, argv[2][i]);
+		i++;
+	}
+	return (0);
 }
