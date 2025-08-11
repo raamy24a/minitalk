@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 14:44:40 by radib             #+#    #+#             */
-/*   Updated: 2025/08/11 15:26:46 by radib            ###   ########.fr       */
+/*   Updated: 2025/08/11 15:44:29 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,13 @@ void	sendbyte(int pid, int character)
 			}
 		}
 		else
-			kill(pid, SIGUSR1);
+		{
+			if (kill(pid, SIGUSR1))
+			{
+				write(2, "wrong pid\n", 10);
+				exit (0);
+			}
+		}
 		while (g_handshake == 0)
 			usleep(1);
 		i++;
