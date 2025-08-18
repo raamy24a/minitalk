@@ -1,4 +1,4 @@
-NAME = libftprintf.a
+NAME = printf.a
 SOURCES = ft_putnbr.c ft_printf.c
 
 
@@ -11,7 +11,7 @@ CFLAGS = -Wall -Wextra -Werror
 all: $(NAME)
 
 $(NAME): $(OBJECTS)
-	$(AR) -r $@ $?
+	ar rc ${NAME} ${OBJECTS}
 
 %.o: %.c
 	$(CC) -c $(CFLAGS) $?

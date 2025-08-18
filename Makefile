@@ -1,31 +1,43 @@
-NAME_SERVER = serverexec
-NAME_CLIENT = clientexec
+NAME_SERVER = server
+NAME_CLIENT = client
 
-SRC_SERVER = server/server.c printf/libftprintf.a printf/libftprintf.a
-SRC_CLIENT = client/client.c libft/libft.a printf/libftprintf.a
+SRC_SERVER = serveru/server_main.c 
+SRC_CLIENT = clientu/client_main.c
 
 OBJ_SERVER = $(SRC_SERVER:.c=.o)
 OBJ_CLIENT = $(SRC_CLIENT:.c=.o)
 
+OBJS = $(OBJ_SERVER) $(OBJ_CLIENT)
+
+LIBFT = libft/libft.a
+PRINTF = printf/printf.a
+
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g
 
-all: $(NAME_SERVER) $(NAME_CLIENT)
+all: server client
 
-$(NAME_SERVER): $(OBJ_SERVER)
-	$(CC) $(CFLAGS) $(OBJ_SERVER) -o $(NAME_SERVER)
+server: serveru/server_main.o libft/libft.a printf/printf.a
+	$(CC) $(CFLAGS) serveru/server_main.o libft/libft.a printf/printf.a -o server
 
-$(NAME_CLIENT): $(OBJ_CLIENT)
-	$(CC) $(CFLAGS) $(OBJ_CLIENT) -o $(NAME_CLIENT)
+client: clientu/client_main.o libft/libft.a printf/printf.a
+	$(CC) $(CFLAGS) clientu/client_main.o libft/libft.a printf/printf.a -o client
 
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+libft/libft.a:
+	$(MAKE) -C libft
+
+printf/printf.a:
+	$(MAKE) -C printf
 
 clean:
-	rm -f $(OBJ_SERVER) $(OBJ_CLIENT)
+	rm -f serveru/server_main.o clientu/client_main.o
+	$(MAKE) -C libft clean
+	$(MAKE) -C printf clean
 
 fclean: clean
-	rm -f $(NAME_SERVER) $(NAME_CLIENT)
+	rm -f server client
+	$(MAKE) -C libft fclean
+	$(MAKE) -C printf fclean
 
 re: fclean all
 

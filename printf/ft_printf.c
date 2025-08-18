@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 11:29:15 by radib             #+#    #+#             */
-/*   Updated: 2025/05/06 14:57:16 by radib            ###   ########.fr       */
+/*   Updated: 2025/06/02 13:38:56 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,8 +138,10 @@ int	ft_printf(const char *format_str, ...)
 	va_end(args);
 	return (len);
 }
+
 // int	main(void)
 // {
-// printf("%x\n", 0);
-// ft_printf("%x\n", 0);
+// 	printf("%x\n", 0);
+// 	ft_printf("%x\n", 0);
+// 	return (0);
 // }
