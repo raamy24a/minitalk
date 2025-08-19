@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.c                                           :+:      :+:    :+:   */
+/*   client_main.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 14:44:40 by radib             #+#    #+#             */
-/*   Updated: 2025/08/12 16:02:56 by radib            ###   ########.fr       */
+/*   Updated: 2025/08/19 14:44:49 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,8 @@
 
 int	g_handshake;
 
-void	sendbyte(int pid, int character)
+void	sendbyte(int pid, int character, int i)
 {
-	int	i;
-
-	i = 0;
 	while (i != 8)
 	{
 		g_handshake = 0;
@@ -68,7 +65,7 @@ int	main(int argc, char *argv[])
 	pid = ft_atoi(argv[1]);
 	while (argv[2][i])
 	{
-		sendbyte(pid, argv[2][i]);
+		sendbyte(pid, argv[2][i], 0);
 		i++;
 	}
 	return (0);
